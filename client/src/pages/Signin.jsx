@@ -6,6 +6,7 @@ import {
   signInSuccess,
   signInFailure,
 } from "../redux/user/userSlice";
+import OAuth from "../components/OAuth";
 
 const Signin = () => {
   const [formdata, setFormdata] = useState({});
@@ -34,14 +35,13 @@ const Signin = () => {
         dispatch(signInFailure(data.message));
         return;
       }
-      dispatch(signInSuccess(data))
+      dispatch(signInSuccess(data));
       navigate("/");
-      console.log(data);
     } catch (error) {
       dispatch(signInFailure(error.message));
     }
   };
-  console.log(formdata);
+  // console.log(formdata);
   return (
     <div className="p-3 max-w-lg mx-auto">
       <h1 className="text-3xl text-center font-semibold my-7"> Sign In</h1>
@@ -69,15 +69,17 @@ const Signin = () => {
           {loading ? "...Loading " : "Signin"}
         </button>
 
-        <div className="flex gap-2 mt-5">
-          <p>Dont have an account?</p>
-          <Link to="/signup">
-            {" "}
-            <span className="text-blue-700">Sign Up</span>
-          </Link>
-        </div>
-        {error && <p className="text-red-500 mt-5"> {error}</p>}
+        <OAuth />
       </form>
+
+      <div className="flex gap-2 mt-5">
+        <p>Dont have an account?</p>
+        <Link to="/signup">
+          {" "}
+          <span className="text-blue-700">Sign Up</span>
+        </Link>
+      </div>
+      {error && <p className="text-red-500 mt-5"> {error}</p>}
     </div>
   );
 };

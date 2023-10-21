@@ -27,7 +27,7 @@ const listingSchema = new mongoose.Schema(
       required: true,
     },
     bedrooms: {
-      type: String,
+      type: Number,
       required: true,
     },
     furnished: {
@@ -50,7 +50,7 @@ const listingSchema = new mongoose.Schema(
       type: Array,
       required: true,
     },
-    useRef: {
+    userRef: {
       type: String,
       required: true,
     },
@@ -58,5 +58,4 @@ const listingSchema = new mongoose.Schema(
   { timestamps: true }
 );
 
-const Listing = mongoose.model("Listing", listingSchema);
-export default Listing;
+export const Listing = mongoose.model("Listing", listingSchema);

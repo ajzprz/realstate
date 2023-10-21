@@ -1,4 +1,4 @@
-import Listing from "../models/listingModel.js";
+import {Listing} from "../models/listingModel.js";
 
 export const createListing = async (req, res, next) => {
   try {

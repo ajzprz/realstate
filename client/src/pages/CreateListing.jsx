@@ -10,7 +10,8 @@ import { useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 
 export default function CreateListing() {
-    const navigate = useNavigate()
+  const { currentUser } = useSelector((state) => state.user);
+  const navigate = useNavigate();
   const [files, setFiles] = useState([]);
   const [formData, setFormData] = useState({
     imageUrls: [],
@@ -21,7 +22,7 @@ export default function CreateListing() {
     bedrooms: 1,
     bathrooms: 1,
     regularPrice: 50,
-    discountedPrice: 0,
+    discountPrice: 0,
     offer: false,
     parking: false,
     furnished: false,
@@ -31,7 +32,6 @@ export default function CreateListing() {
   const [uploading, setUploading] = useState(false);
   const [error, setError] = useState(false);
   const [loading, setLoading] = useState(false);
-  const { currentUser } = useSelector((state) => state.user);
   console.log(formData);
 
   const handleImageSubmit = (e) => {
@@ -104,7 +104,7 @@ export default function CreateListing() {
     }
     if (
       e.target.id === "parking" ||
-      e.target.id === "frunished" ||
+      e.target.id === "furnished" ||
       e.target.id === "offer"
     ) {
       setFormData({
@@ -148,7 +148,7 @@ export default function CreateListing() {
       if (data.success === false) {
         setError(data.message);
       }
-      navigate(`/listing/${data._id}`)
+      navigate(`/listing/${data._id}`);
     } catch (error) {
       setError(error.message);
       setLoading(false);
@@ -354,6 +354,7 @@ export default function CreateListing() {
                 className="flex justify-between p-3 border items-center"
               >
                 <img
+                  onChange={handleImageSubmit}
                   src={url}
                   alt="listing-image"
                   className="w-20 h-20 object-cover rounded-lg"
@@ -367,7 +368,10 @@ export default function CreateListing() {
                 </button>
               </div>
             ))}
-          <button disabled={loading || uploading} className="p-3 bg-slate-700 rounded-lg text-white uppercase hover:shadow-lg disabled:opacity-80">
+          <button
+            disabled={loading || uploading}
+            className="p-3 bg-slate-700 rounded-lg text-white uppercase hover:shadow-lg disabled:opacity-80"
+          >
             {loading ? "Creating ... " : "Create Listing"}
           </button>
           {error && <p className="text-red-700 ">{error}</p>}

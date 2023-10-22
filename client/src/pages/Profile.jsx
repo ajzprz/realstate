@@ -28,6 +28,8 @@ const Profile = () => {
   const [fileUploadError, setFileUploadError] = useState(false);
   const [formData, setFormData] = useState({});
   const [updateSuccess, setUpdateSuccess] = useState(false);
+  const [showListingError, setShowListingError] = useState(false);
+  const [userListings, setUserListings] = useState([]);
 
   const dispatch = useDispatch();
   // console.log(formData);
@@ -118,6 +120,55 @@ const Profile = () => {
     }
   };
 
+  const handleListing = async () => {
+    try {
+      setShowListingError(false);
+      const res = await fetch(`/api/user/listing/${currentUser._id}`);
+      const data = await res.json();
+      if (data.success === false) {
+        setShowListingError(true);
+        return;
+      }
+      setUserListings(data);
+    } catch (error) {
+      setShowListingError(true);
+    }
+  };
+
+  const handleDeleteListing = async (listingId) => {
+    try {
+      const res = await fetch(`/api/listing/delete/${listingId}`, {
+        method: "DELETE",
+      });
+      const data = await res.json();
+      if (data.success === false) {
+        console.log(data.message);
+        return;
+      }
+      setUserListings((prev) =>
+        prev.filter((listing) => listing._id !== listingId)
+      );
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  const handleEditListing = async (listingId) => {
+    try {
+      const res = await fetch(`/api/listing/delete/${listingId}`, {
+        method: "PUT",
+      });
+      const data = await res.json();
+      if (data.success === false) {
+        console.log(data.message);
+        return;
+      }
+      setUserListings(data);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
   // firebase image storage rule
   //   allow read;
   // allow write: if
@@ -191,9 +242,12 @@ const Profile = () => {
           {loading ? "...Loading" : "Update"}
         </button>
 
-        <Link to={"/create-listing"} className="bg-green-700
+        <Link
+          to={"/create-listing"}
+          className="bg-green-700
         text-white p-3 rounded-lg uppercase text-center hover:opacity-90
-        ">
+        "
+        >
           Create Listing
         </Link>
       </form>
@@ -205,11 +259,59 @@ const Profile = () => {
           Sign Out
         </span>
       </div>
+      <div className="flex flex-col gap-5">
+        <p className="text-red-700 text-center">{error ? error : " "}</p>
+        <p className="text-green-700 text-center">
+          {updateSuccess ? " User is updated Successfully" : ""}
+        </p>
+        <button onClick={handleListing} className="text-green-700 w-full ">
+          Show Listings
+        </button>
+        <p>{showListingError ? "Error showing listing" : ""}</p>
+        {userListings && userListings.length > 0 && (
+          <div className="flex flex-col gap-4 ">
+            <h1 className="text-center text-2xl font-semibold">
+              Your Listings
+            </h1>
+            {userListings.map((listing) => (
+              <div
+                className=" p-3 bg-slate-50-50 flex flex-row shadow-sm justify-between items-center border rounded-lg gap-4"
+                key={listing._id}
+              >
+                <div className="flex flex-row gap-8 items-center">
+                  <Link to={`/listing/${listing._id}`}>
+                    <img
+                    
+                      className="hover:scale-110 h-16 w-16 object-contain"
+                      src={listing.imageUrls[0]}
+                      alt="listing cover"
+                    />
+                  </Link>
 
-      <p className="text-red-700 text-center">{error ? error : " "}</p>
-      <p className="text-green-700 text-center">
-        {updateSuccess ? " User is updated Successfully" : ""}
-      </p>
+                  <Link to={`/listing/${listing._id}`}>
+                    <p className="hover:underline">{listing.name}</p>
+                  </Link>
+                </div>
+
+                <div className="flex flex-col gap-2">
+                  <button
+                    onClick={() => handleDeleteListing(listing._id)}
+                    className="text-red-700 uppercase"
+                  >
+                    Delete
+                  </button>
+                  <button
+                    onClick={() => handleEditListing(listing._id)}
+                    className="text-green-700 uppercase"
+                  >
+                    Edit
+                  </button>
+                </div>
+              </div>
+            ))}
+          </div>
+        )}
+      </div>
     </div>
   );
 };

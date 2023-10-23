@@ -3,6 +3,7 @@ import { useParams } from "react-router-dom";
 import { Swiper, SwiperSlide } from "swiper/react";
 import SwiperCore from "swiper";
 import { Navigation } from "swiper/modules";
+<<<<<<< HEAD
 import "swiper";
 import {
   FaBath,
@@ -15,15 +16,22 @@ import {
 } from "react-icons/fa";
 import { useSelector } from "react-redux";
 import Contact from "../components/Contact";
+=======
+// import 'swiper/swiper-bundle';
+
+>>>>>>> a50ad0835bb9fd2ba2f9b456219b739362011bfe
 const Listing = () => {
   SwiperCore.use([Navigation]);
   const params = useParams();
   const [listing, setListing] = useState(null);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(false);
+<<<<<<< HEAD
   const [copied, setCopied] = useState(false);
   const [contact, setContact] = useState(false);
   const { currentUser } = useSelector((state) => state.user);
+=======
+>>>>>>> a50ad0835bb9fd2ba2f9b456219b739362011bfe
   useEffect(() => {
     const fetchListing = async () => {
       try {
@@ -47,6 +55,7 @@ const Listing = () => {
   }, [params.listingId]);
 
   return (
+<<<<<<< HEAD
     <main>
       {loading && <p className="text-3xl">Loading ...</p>}
       {error && <p className="text-3xl">Something Went Wrong</p>}
@@ -123,6 +132,27 @@ const Listing = () => {
         </div>
       )}
     </main>
+=======
+    <div>
+      {loading && <p className="text-3xl">Loading ...</p>}
+      {error && <p className="text-3xl">Something Went Wrong</p>}
+      {listing && !error && !loading && (
+        <Swiper navigation>
+          {listing.imageUrls.map((imageUrl) => (
+            <SwiperSlide key={imageUrl}>
+              <div
+                className="h-[500px]"
+                style={{
+                  background: `url(${imageUrl}) center no-repeat`,
+                  backgroundSize: "cover",
+                }}
+              ></div>
+            </SwiperSlide>
+          ))}
+        </Swiper>
+      )}
+    </div>
+>>>>>>> a50ad0835bb9fd2ba2f9b456219b739362011bfe
   );
 };
 

@@ -11,10 +11,11 @@ import bcryptjs from "bcryptjs";
 
 export const getUser = async (req, res, next) => {
   try {
-    const { id } = req.params;
-    const user = await User.findById(id);
-    res.json(user.username);
-    console.log(user.username);
+    const user = await User.findById(req.params.id);
+    if (!user) return next(errorHandler(404, "User not Found"));
+
+    const { password: pass, ...rest } = user._doc;
+    res.status(200).json(rest);
   } catch (error) {
     next(error);
   }

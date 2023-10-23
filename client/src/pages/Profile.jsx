@@ -281,7 +281,6 @@ const Profile = () => {
                 <div className="flex flex-row gap-8 items-center">
                   <Link to={`/listing/${listing._id}`}>
                     <img
-                    
                       className="hover:scale-110 h-16 w-16 object-contain"
                       src={listing.imageUrls[0]}
                       alt="listing cover"
@@ -300,12 +299,9 @@ const Profile = () => {
                   >
                     Delete
                   </button>
-                  <button
-                    onClick={() => handleEditListing(listing._id)}
-                    className="text-green-700 uppercase"
-                  >
-                    Edit
-                  </button>
+                  <Link to={`/update-listing/${listing._id}`}>
+                    <button className="text-green-700 uppercase">Edit</button>
+                  </Link>
                 </div>
               </div>
             ))}

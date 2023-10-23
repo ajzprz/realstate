@@ -1,11 +1,17 @@
 import express from "express";
-import { createListing, deleteListing, editListing } from "../controllers/listingController.js";
+import {
+  createListing,
+  deleteListing,
+  getListing,
+  updateListing,
+} from "../controllers/listingController.js";
 import { verifyToken } from "../utils/verify.js";
 
 const router = express.Router();
 
-router.post('/create', verifyToken, createListing)
-router.put('/edit/:id', verifyToken, editListing)
-router.delete('/delete/:id', verifyToken, deleteListing)
+router.get("/get/:id", verifyToken, getListing);
+router.post("/create", verifyToken, createListing);
+router.post("/update/:id", verifyToken, updateListing);
+router.delete("/delete/:id", verifyToken, deleteListing);
 
 export default router;

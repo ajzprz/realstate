@@ -11,9 +11,27 @@ export const createListing = async (req, res, next) => {
   }
 };
 
-export const editListing = async (req, res, next) => {
+export const getListing = async (req, res, next) => {
   try {
-    const listing = await Listing.findByIdAndDelete(req.params.id);
+    const listing = await Listing.findById(req.params.id);
+    if (!listing) {
+      return res.staus(404, "Listing not found");
+    }
+    return res.status(200).json(listing);
+  } catch (error) {
+    console.log(error);
+    next(error);
+  }
+};
+
+export const updateListing = async (req, res, next) => {
+  try {
+    const updatedListing = await Listing.findByIdAndUpdate(
+      req.params.id,
+      req.body,
+      { new: true }
+    );
+    res.status(200).json(updatedListing);
   } catch (error) {
     next(error);
   }

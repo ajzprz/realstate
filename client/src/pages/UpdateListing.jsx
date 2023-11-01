@@ -322,7 +322,7 @@ export default function UpdateListing() {
                 name=""
                 id="regularPrice"
                 min="1"
-                max="10000"
+                max="100000"
                 required
               />
               <div className="flex flex-col text-center">

@@ -64,9 +64,11 @@ const Listing = () => {
             ))}
           </Swiper>
           <div className="  flex flex-col gap-4 max-w-4xl mx-auto p-3 my-7">
-            <h1 className="text-3xl font-semibold">
-              {listing &&
-                listing.name + "- $" + listing.regularPrice + " " + "/ Month"}
+            <h1 className="text-2xl font-semibold">
+              {listing.name} - $ {listing.offer ? listing.discountPrice.toLocaleString('en-US'):
+              listing.regularPrice.toLocaleString('en-US')
+              }
+              {listing.type === 'rent' && ' / month'}
             </h1>
             <p className="flex flex-row gap-2 items-center text-lg font-semibold">
               <FaMapMarkerAlt className="text-green-700" /> {listing.address}

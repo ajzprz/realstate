@@ -285,7 +285,7 @@ export default function CreateListing() {
                 <input
                   className="p-3 border rounded-lg border-gray-300"
                   onChange={handleChange}
-                  value={formData.discountedPrice}
+                  value={formData.discountPrice}
                   type="number"
                   name=""
                   id="discountPrice"
@@ -308,7 +308,7 @@ export default function CreateListing() {
                 name=""
                 id="regularPrice"
                 min="1"
-                max="10000"
+                max="100000"
                 required
               />
               <div className="flex flex-col text-center">
